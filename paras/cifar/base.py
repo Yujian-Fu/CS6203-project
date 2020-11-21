@@ -19,7 +19,7 @@ parameter_base = {
 'no_models': 10,
 'number_of_total_participants': 100,
 'is_poison': True,
-'poison_step_lr': True
+'poison_step_lr': True,
 
 'environment_name': 'cifar', # visdom environment for visualization
 
