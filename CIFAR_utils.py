@@ -19,8 +19,8 @@ class CIFAR(Helper):
         self.target_model = ResNet(BasicBlock, [2,2,2,2],name='{0}_ResNet_18'.format(self.name), created_time=self.current_time)
 
        # Caution! this is used in CPU !
-        self.local_model= self.local_model.to()
-        self.target_model= self.target_model.to(device)
+        self.local_model=self.local_model.to(device)
+        self.target_model=self.target_model.to(device)
         if self.params['resumed_model']:
             if torch.cuda.is_available() :
                 loaded_params = torch.load(f"saved_models/{self.params['resumed_model_name']}")
