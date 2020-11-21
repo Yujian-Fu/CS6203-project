@@ -396,8 +396,8 @@ class Helper:
         except FileExistsError:
             logger.info('Folder already exists')
         logger.addHandler(logging.FileHandler(filename=f'{self.folder_path}/log.txt'))
-        #self.logger.addHandler(logging.StreamHandler())
-        #self.logger.setLevel(logging.INFO)
+        logger.addHandler(logging.StreamHandler())
+        logger.setLevel(logging.INFO)
         self.params['current_time'] = self.current_time
         self.params['folder_path'] = self.folder_path
         self.fg= FoolsGold()

@@ -200,8 +200,7 @@ def train(helper, start_epoch, local_model, target_model, is_poison,agent_name_k
                     epoch_loss, epoch_acc, epoch_corret, epoch_total = \
                         Mytest_poison_agent_trigger(helper=helper, model=model, agent_name_key=agent_name_key)
                     
-                    print(agent_name_key, str(agent_name_key) + "_trigger", "", epoch, epoch_loss,
-                         epoch_acc, epoch_corret, epoch_total)
+
                     csv_record.poisontriggertest_result.append(
                         [agent_name_key, str(agent_name_key) + "_trigger", "", epoch, epoch_loss,
                          epoch_acc, epoch_corret, epoch_total])
