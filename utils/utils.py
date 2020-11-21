@@ -80,7 +80,7 @@ def train_process(helper):
         #elif helper.params['aggregation_method'] == config.KURM:
             # Use Krum for mitigating the attack
 
-        
+
         #elif helper.params['aggregation_method'] == config.NORM_CLIPPING:
             # Use norm Clipping for aggregation
         
@@ -102,7 +102,6 @@ def train_process(helper):
         csv_record.test_result.append(["global", temp_global_epoch, epoch_loss, epoch_acc, epoch_corret, epoch_total])
 
         if helper.params['is_poison']:
-
             epoch_loss, epoch_acc_p, epoch_corret, epoch_total = train.Mytest_poison(helper=helper,
                                                                                     epoch=temp_global_epoch,
                                                                                     model=helper.target_model,

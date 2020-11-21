@@ -11,9 +11,9 @@ parameters = {
 'baseline': True, # single-shot: false; multi-shot:true
 
 # distributed attackers: (training img num : 526 - 527 - 496 - 546)
-#adversary_list: [17, 33, 77, 11]
+'adversary_list': [17, 33, 77, 11],
 # centralized attacker: (training img num: 529)
-'adversary_list': [45],
+#'adversary_list': [45],
 
 #adversary_list: [77, 11]
 
