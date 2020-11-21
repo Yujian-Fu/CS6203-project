@@ -101,8 +101,6 @@ def train_process(helper):
                                                                        model=helper.target_model, is_poison=False,
                                                                        agent_name_key="global")
         csv_record.test_result.append(["global", temp_global_epoch, epoch_loss, epoch_acc, epoch_corret, epoch_total])
-        if len(csv_record.scale_temp_one_row)>0:
-            csv_record.scale_temp_one_row.append(round(epoch_acc, 4))
 
         if helper.params['is_poison']:
 
@@ -119,7 +117,7 @@ def train_process(helper):
             # test on local triggers
             csv_record.poisontriggertest_result.append(
                 ["global", "combine", "", temp_global_epoch, epoch_loss, epoch_acc_p, epoch_corret, epoch_total])
-            
+
             if len(helper.params['adversary_list']) == 1:  # centralized attack
                 if helper.params['centralized_test_trigger'] == True:  # centralized attack test on local triggers
                     for j in range(0, helper.params['trigger_num']):
