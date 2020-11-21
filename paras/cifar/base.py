@@ -18,6 +18,7 @@ parameter_base = {
 'participants_namelist': [0,1,2,3,4,5,6,7,8,9], # not used when is_random_namelist == true
 'no_models': 10,
 'number_of_total_participants': 100,
+'is_poison': True,
 
 'environment_name': 'cifar', # visdom environment for visualization
 

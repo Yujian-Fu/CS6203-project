@@ -391,7 +391,6 @@ class Helper:
         self.best_loss = math.inf
 
         self.params = parameters
-        print(self.params)
         self.name = name
         self.train_dataset = None
         self.test_dataset = None
