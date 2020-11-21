@@ -14,9 +14,9 @@ logger = logging.getLogger("logger")
 class CIFAR(Helper):
 
     def create_model(self):
-        self.local_model = ResNet(BasicBlock, [2,2,2,2],name='{0}_ResNet_18'.format(self.name), created_time=self.created_time)
+        self.local_model = ResNet(BasicBlock, [2,2,2,2],name='{0}_ResNet_18'.format(self.name), created_time=self.current_time)
         
-        self.target_model = ResNet(BasicBlock, [2,2,2,2],name='{0}_ResNet_18'.format(self.name), created_time=self.created_time)
+        self.target_model = ResNet(BasicBlock, [2,2,2,2],name='{0}_ResNet_18'.format(self.name), created_time=self.current_time)
 
        # Caution! this is used in CPU !
         self.local_model= self.local_model.to()
