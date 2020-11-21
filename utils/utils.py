@@ -700,6 +700,23 @@ class Helper:
             target.requires_grad_(False)
         return data, target
 
+    def save_model(self, model=None, epoch=0, val_loss=0):
+        if model is None:
+            model = self.target_model
+        if self.params['save_model']:
+            # save_model
+            logger.info("saving model")
+            model_name = '{0}/model_last.pt.tar'.format(self.params['folder_path'])
+            saved_dict = {'state_dict': model.state_dict(), 'epoch': epoch,
+                          'lr': self.params['lr']}
+            self.save_checkpoint(saved_dict, False, model_name)
+            if epoch in self.params['save_on_epochs']:
+                logger.info(f'Saving model on epoch {epoch}')
+                self.save_checkpoint(saved_dict, False, filename=f'{model_name}.epoch_{epoch}')
+            if val_loss < self.best_loss:
+                self.save_checkpoint(saved_dict, False, f'{model_name}.best')
+                self.best_loss = val_loss
+
 
 class FoolsGold(object):
     def __init__(self):
