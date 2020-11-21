@@ -20,7 +20,6 @@ parameters = {
 #'trigger_num': 4,
 'trigger_num': 2,
 
-
 # gap 3 size 1*6 base (0, 0)
 #0_poison_pattern: [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [0, 5]]
 #1_poison_pattern: [[0, 9], [0, 10], [0, 11], [0, 12], [0, 13], [0, 14]]

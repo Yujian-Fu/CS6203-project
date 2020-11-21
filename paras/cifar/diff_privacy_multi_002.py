@@ -1,5 +1,5 @@
 parameters = {
-'diff_privacy': False, 
+'diff_privacy': True, 
 'sigma': 0.02,
 
 # aggregation_methods Allowed values are: [ 'mean', 'geom_median','foolsgold']
