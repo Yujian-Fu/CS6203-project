@@ -391,7 +391,7 @@ class Helper:
         self.test_dataset = None
         self.folder_path = f'saved_models/{self.name}/{current_time}'
         try:
-            os.mkdir(self.folder_path)
+            os.makedirs(self.folder_path)
         except FileExistsError:
             logger.info('Folder already exists')
         logger.addHandler(logging.FileHandler(filename=f'{self.folder_path}/log.txt'))
