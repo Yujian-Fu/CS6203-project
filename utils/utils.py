@@ -638,9 +638,7 @@ class Helper:
         return noised_layer
 
     def get_poison_batch(self, bptt,adversarial_index=-1, evaluation=False):
-
         images, targets = bptt
-
         poison_count= 0
         new_images=images
         new_targets=targets
