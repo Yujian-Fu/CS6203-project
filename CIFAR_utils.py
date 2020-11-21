@@ -1,7 +1,7 @@
 import sys
 sys.path.append("..")
 from utils.utils import Helper
-from utils.utils_model import ResNet
+from utils.utils_model import ResNet, BasicBlock
 from utils.config import device
 import torch
 import random
@@ -14,9 +14,9 @@ logger = logging.getLogger("logger")
 class CIFAR(Helper):
 
     def create_model(self):
-        self.local_model = ResNet([2,2,2,2],name='{0}_ResNet_18'.format("local"), created_time=self.current_time)
+        self.local_model = ResNet(BasicBlock, [2,2,2,2],name='{0}_ResNet_18'.format(self.name), created_time=self.created_time)
         
-        self.target_model = ResNet([2,2,2,2],name='{0}_ResNet_18'.format("target"), created_time=self.current_time)
+        self.target_model = ResNet(BasicBlock, [2,2,2,2],name='{0}_ResNet_18'.format(self.name), created_time=self.created_time)
 
        # Caution! this is used in CPU !
         self.local_model= self.local_model.to()
