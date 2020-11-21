@@ -637,6 +637,60 @@ class Helper:
 
         return noised_layer
 
+    def get_poison_batch(self, bptt,adversarial_index=-1, evaluation=False):
+
+        images, targets = bptt
+
+        poison_count= 0
+        new_images=images
+        new_targets=targets
+
+        for index in range(0, len(images)):
+            if evaluation: # poison all data when testing
+                new_targets[index] = self.params['poison_label_swap']
+                new_images[index] = self.add_pixel_pattern(images[index],adversarial_index)
+                poison_count+=1
+
+            else: # poison part of data when training
+                if index < self.params['poisoning_per_batch']:
+                    new_targets[index] = self.params['poison_label_swap']
+                    new_images[index] = self.add_pixel_pattern(images[index],adversarial_index)
+                    poison_count += 1
+                else:
+                    new_images[index] = images[index]
+                    new_targets[index]= targets[index]
+
+        new_images = new_images.to(config.device)
+        new_targets = new_targets.to(config.device).long()
+        if evaluation:
+            new_images.requires_grad_(False)
+            new_targets.requires_grad_(False)
+        return new_images,new_targets,poison_count
+
+    def add_pixel_pattern(self,ori_image,adversarial_index):
+        image = copy.deepcopy(ori_image)
+        poison_patterns= []
+        if adversarial_index==-1:
+            for i in range(0,self.params['trigger_num']):
+                poison_patterns = poison_patterns+ self.params[str(i) + '_poison_pattern']
+        else :
+            poison_patterns = self.params[str(adversarial_index) + '_poison_pattern']
+        if self.params['type'] == config.TYPE_CIFAR or self.params['type'] == config.TYPE_TINYIMAGENET:
+            for i in range(0,len(poison_patterns)):
+                pos = poison_patterns[i]
+                image[0][pos[0]][pos[1]] = 1
+                image[1][pos[0]][pos[1]] = 1
+                image[2][pos[0]][pos[1]] = 1
+
+
+        elif self.params['type'] == config.TYPE_MNIST:
+
+            for i in range(0, len(poison_patterns)):
+                pos = poison_patterns[i]
+                image[0][pos[0]][pos[1]] = 1
+
+        return image
+
 
 class FoolsGold(object):
     def __init__(self):

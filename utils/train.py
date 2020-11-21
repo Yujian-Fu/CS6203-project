@@ -3,7 +3,7 @@ import copy
 import torch.nn as nn
 import logging
 
-import utils.csv_record
+import utils.csv_record as csv_record
 
 logger = logging.getLogger("train_logger")
 
