@@ -675,7 +675,7 @@ class Helper:
                 poison_patterns = poison_patterns+ self.params[str(i) + '_poison_pattern']
         else :
             poison_patterns = self.params[str(adversarial_index) + '_poison_pattern']
-        if self.params['type'] == config.TYPE_CIFAR or self.params['type'] == config.TYPE_TINYIMAGENET:
+        if self.params['type'] == 'cifar' or self.params['type'] == 'tiny-imagenet':
             for i in range(0,len(poison_patterns)):
                 pos = poison_patterns[i]
                 image[0][pos[0]][pos[1]] = 1
@@ -683,11 +683,15 @@ class Helper:
                 image[2][pos[0]][pos[1]] = 1
 
 
-        elif self.params['type'] == config.TYPE_MNIST:
+        elif self.params['type'] == 'mnist':
 
             for i in range(0, len(poison_patterns)):
                 pos = poison_patterns[i]
                 image[0][pos[0]][pos[1]] = 1
+
+        else:
+            print("Type error")
+            exit(0)
 
         return image
 
