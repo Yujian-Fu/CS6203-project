@@ -415,7 +415,7 @@ class Helper:
 
         # {classes_indices (0, 10): image indices (0, 50000)}
         self.classes_dict = self.build_classes_dict()
-        logger.info('build_classes_dict done')
+        self.logger.info('build_classes_dict done')
 
         ## sample indices for participants using Dirichlet distribution
         # Indices_per_participant []
@@ -426,7 +426,7 @@ class Helper:
                             indices_per_participant.items()]
 
         # train_loaders [id (1, parts), indices_list]
-        logger.info('train loaders done')
+        self.logger.info('train loaders done')
         self.train_data = train_loaders
 
         # All the test data
@@ -595,7 +595,7 @@ class Helper:
 
 
     def poison_test_dataset(self):
-            logger.info('get poison test loader')
+            self.logger.info('get poison test loader')
             # delete the test data with chosen target label
             test_classes = {}
 
