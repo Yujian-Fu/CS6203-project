@@ -9,8 +9,6 @@ import logging
 from torchvision import datasets, transforms
 
 
-logger = logging.getLogger("logger")
-
 class CIFAR(Helper):
 
     def create_model(self):
@@ -21,6 +19,7 @@ class CIFAR(Helper):
        # Caution! this is used in CPU !
         self.local_model=self.local_model.to(device)
         self.target_model=self.target_model.to(device)
+        
         if self.params['resumed_model']:
             if torch.cuda.is_available() :
                 loaded_params = torch.load(f"saved_models/{self.params['resumed_model_name']}")
@@ -29,7 +28,7 @@ class CIFAR(Helper):
             self.target_model.load_state_dict(loaded_params['state_dict'])
             self.start_epoch = loaded_params['epoch']+1
             self.params['lr'] = loaded_params.get('lr', self.params['lr'])
-            logger.info(f"Loaded parameters from saved model: LR is"
+            self.logger.info(f"Loaded parameters from saved model: LR is"
                         f" {self.params['lr']} and current epoch is {self.start_epoch}")
         else:
             self.start_epoch = 1

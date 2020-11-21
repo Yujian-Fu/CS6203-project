@@ -18,8 +18,6 @@ import utils.config as config
 import utils.csv_record as csv_record
 from utils.utils_model import SimpleNet
 
-logger = logging.getLogger("utils_logger")
-
 def train_process(helper):
 
     similarity_other_path = helper.folder_path + "/model_other_similarity.txt"
@@ -55,16 +53,16 @@ def train_process(helper):
         random_agent_name_keys = random.sample(helper.begnign_namelist+nonattacker, begnign_num)
         agent_name_keys = adversarial_name_keys + random_agent_name_keys
 
-        logger.info('----------------------Start of one epoch training----------------------------')
-        logger.info(f'Server Epoch:{epoch} choose agents : {agent_name_keys}. Adversary list: {adversarial_name_keys}')
+        #helper.logger.info('----------------------Start of one epoch training----------------------------')
+        helper.logger.info(f'Server Epoch:{epoch} choose agents : {agent_name_keys}. Adversary list: {adversarial_name_keys}')
         # no need for adversarial in the training?
         epochs_submit_update_dict, num_samples_dict = train.train(helper=helper, start_epoch=epoch,
                                                                   local_model=helper.local_model,
                                                                   target_model=helper.target_model,
                                                                   is_poison=helper.params['is_poison'],
                                                                   agent_name_keys=agent_name_keys)
-        logger.info(f'time spent on training: {time.time() - t}')
-        logger.info('----------------------End of one epoch training----------------------------')
+        helper.logger.info(f'time spent on training: {round(time.time() - t, 2)}')
+        #helper.logger.info('----------------------End of one epoch training----------------------------')
 
         weight_accumulator, updates = helper.accumulate_weight(weight_accumulator, epochs_submit_update_dict,
                                                                agent_name_keys, num_samples_dict)
@@ -126,11 +124,11 @@ def train_process(helper):
                 for agent_name_key in helper.params['adversary_list']:
                     trigger_test_byname(helper, agent_name_key, epoch)
 
-        logger.info(f'Done in {time.time() - start_time} sec.')
+        helper.logger.info(f'Done in {time.time() - start_time} sec.')
         csv_record.save_result_csv(epoch, helper.params['is_poison'], helper.folder_path)
 
 
-    logger.info(f"This run has a label: {helper.params['current_time']}. "
+    helper.logger.info(f"This run has a label: {helper.params['current_time']}. "
                 f"Model: {helper.params['environment_name']}")
     similarity_other_file.close()
     similarity_mean_file.close()
@@ -391,15 +389,15 @@ class Helper:
         self.name = name
         self.train_dataset = None
         self.test_dataset = None
-        
+        self.logger = logging.getLogger("logger")
         self.folder_path = f'saved_models/{self.name}/{current_time}'
         try:
             os.mkdir(self.folder_path)
         except FileExistsError:
-            logger.info('Folder already exists')
-        logger.addHandler(logging.FileHandler(filename=f'{self.folder_path}/log.txt'))
-        logger.addHandler(logging.StreamHandler())
-        logger.setLevel(logging.INFO)
+            self.logger.info('Folder already exists')
+        self.logger.addHandler(logging.FileHandler(filename=f'{self.folder_path}/log.txt'))
+        self.logger.addHandler(logging.StreamHandler())
+        self.logger.setLevel(logging.INFO)
         self.params['current_time'] = self.current_time
         self.params['folder_path'] = self.folder_path
         self.fg= FoolsGold()
