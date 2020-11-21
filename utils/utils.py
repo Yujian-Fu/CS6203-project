@@ -695,6 +695,15 @@ class Helper:
 
         return image
 
+    def get_batch(self, train_data, bptt, evaluation=False):
+        data, target = bptt
+        data = data.to(device)
+        target = target.to(device)
+        if evaluation:
+            data.requires_grad_(False)
+            target.requires_grad_(False)
+        return data, target
+
 
 class FoolsGold(object):
     def __init__(self):
