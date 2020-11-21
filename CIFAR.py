@@ -16,6 +16,7 @@ mode_list = ["cen", "diff", "dis", "double_pix", "defense", "half_attack", "all"
 
 logger = logging.getLogger("main logger")
 logger.setLevel(logging.INFO)
+logger.addHandler(logging.StreamHandler())
 
 def run_test(parameters, current_time, folder_name):
     helper = CIFAR(current_time, folder_name, parameters)
