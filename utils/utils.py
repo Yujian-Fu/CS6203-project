@@ -18,11 +18,12 @@ import utils.config as config
 import utils.csv_record as csv_record
 from utils.utils_model import SimpleNet
 
+logger = logging.getLogger("logger")
 def train_process(helper):
 
-    similarity_other_path = helper.folder_path + "/model_other_similarity.txt"
+    similarity_other_path = helper.folder_path + "/model_co_similarity.txt"
     similarity_other_file = open(similarity_other_path, 'w')
-    similarity_mean_path = helper.folder_path + "/model_similarity.txt"
+    similarity_mean_path = helper.folder_path + "/model_mean_similarity.txt"
     similarity_mean_file = open(similarity_mean_path, 'w')
     write_header = False
 
@@ -54,14 +55,14 @@ def train_process(helper):
         agent_name_keys = adversarial_name_keys + random_agent_name_keys
 
         #helper.logger.info('----------------------Start of one epoch training----------------------------')
-        helper.logger.info(f'Server Epoch:{epoch} choose agents : {agent_name_keys}. Adversary list: {adversarial_name_keys}')
+        logger.info(f'Server Epoch:{epoch} choose agents : {agent_name_keys}. Adversary list: {adversarial_name_keys}')
         # no need for adversarial in the training?
         epochs_submit_update_dict, num_samples_dict = train.train(helper=helper, start_epoch=epoch,
                                                                   local_model=helper.local_model,
                                                                   target_model=helper.target_model,
                                                                   is_poison=helper.params['is_poison'],
                                                                   agent_name_keys=agent_name_keys)
-        helper.logger.info(f'time spent on training: {round(time.time() - t, 2)}')
+        logger.info(f'time spent on training: {round(time.time() - t, 2)}')
         #helper.logger.info('----------------------End of one epoch training----------------------------')
 
         weight_accumulator, updates = helper.accumulate_weight(weight_accumulator, epochs_submit_update_dict,
@@ -124,11 +125,11 @@ def train_process(helper):
                 for agent_name_key in helper.params['adversary_list']:
                     trigger_test_byname(helper, agent_name_key, epoch)
 
-        helper.logger.info(f'Done in {time.time() - start_time} sec.')
+        logger.info(f'Done in {time.time() - start_time} sec.')
         csv_record.save_result_csv(epoch, helper.params['is_poison'], helper.folder_path)
 
 
-    helper.logger.info(f"This run has a label: {helper.params['current_time']}. "
+    logger.info(f"This run has a label: {helper.params['current_time']}. "
                 f"Model: {helper.params['environment_name']}")
     similarity_other_file.close()
     similarity_mean_file.close()
@@ -389,13 +390,12 @@ class Helper:
         self.name = name
         self.train_dataset = None
         self.test_dataset = None
-        self.logger = logging.getLogger("logger")
         self.folder_path = f'saved_models/{self.name}/{current_time}'
         try:
             os.mkdir(self.folder_path)
         except FileExistsError:
-            self.logger.info('Folder already exists')
-        self.logger.addHandler(logging.FileHandler(filename=f'{self.folder_path}/log.txt'))
+            logger.info('Folder already exists')
+        logger.addHandler(logging.FileHandler(filename=f'{self.folder_path}/log.txt'))
         #self.logger.addHandler(logging.StreamHandler())
         #self.logger.setLevel(logging.INFO)
         self.params['current_time'] = self.current_time
@@ -415,7 +415,7 @@ class Helper:
 
         # {classes_indices (0, 10): image indices (0, 50000)}
         self.classes_dict = self.build_classes_dict()
-        self.logger.info('build_classes_dict done')
+        logger.info('build_classes_dict done')
 
         ## sample indices for participants using Dirichlet distribution
         # Indices_per_participant []
@@ -426,7 +426,7 @@ class Helper:
                             indices_per_participant.items()]
 
         # train_loaders [id (1, parts), indices_list]
-        self.logger.info('train loaders done')
+        logger.info('train loaders done')
         self.train_data = train_loaders
 
         # All the test data
@@ -595,7 +595,7 @@ class Helper:
 
 
     def poison_test_dataset(self):
-            self.logger.info('get poison test loader')
+            logger.info('get poison test loader')
             # delete the test data with chosen target label
             test_classes = {}
 

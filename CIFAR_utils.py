@@ -28,12 +28,8 @@ class CIFAR(Helper):
             self.target_model.load_state_dict(loaded_params['state_dict'])
             self.start_epoch = loaded_params['epoch']+1
             self.params['lr'] = loaded_params.get('lr', self.params['lr'])
-            self.logger.info(f"Loaded parameters from saved model: LR is"
-                        f" {self.params['lr']} and current epoch is {self.start_epoch}")
         else:
             self.start_epoch = 1
-
-        logging.info("Loading CIFAR Images")
 
         self.train_dataset = datasets.CIFAR10('./data', train=True, download=True,
                             transform=transforms.Compose([transforms.ToTensor(),]))
