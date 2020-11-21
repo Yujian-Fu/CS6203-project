@@ -133,13 +133,6 @@ def train(helper, start_epoch, local_model, target_model, is_poison,agent_name_k
                         target_value  = last_local_model[key]
                         new_value = target_value + (value - target_value) * clip_rate
                         model.state_dict()[key].copy_(new_value)
-                    distance = helper.model_dist_norm(model, target_params_variables)
-
-                    csv_record.scale_temp_one_row.append(epoch)
-                    csv_record.scale_temp_one_row.append(round(distance, 4))
-
-
-                distance = helper.model_dist_norm(model, target_params_variables)
 
             # benign workers
             else:
