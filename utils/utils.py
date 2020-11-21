@@ -695,8 +695,8 @@ class Helper:
 
     def get_batch(self, train_data, bptt, evaluation=False):
         data, target = bptt
-        data = data.to(device)
-        target = target.to(device)
+        data = data.to(config.device)
+        target = target.to(config.device)
         if evaluation:
             data.requires_grad_(False)
             target.requires_grad_(False)
