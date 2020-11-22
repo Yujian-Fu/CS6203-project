@@ -44,9 +44,10 @@ python MNIST_visualization.py --params all
 You will find the figures in "saved_figures/cifar" and "saved_figures/mnist" respectively
 
 Repos for reference:
-https://github.com/AI-secure/DBA
 
 https://github.com/ebagdasa/backdoor_federated_learning
+
+https://github.com/AI-secure/DBA
 
 https://github.com/krishnap25/RFA
 
