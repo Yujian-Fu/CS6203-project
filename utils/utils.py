@@ -772,7 +772,7 @@ class Helper:
             logger.info('\t\t\tUpdate norm = {} is too large. Update rejected'.format(update_norm))
             is_updated = False
 
-        utils.csv_record.add_weight_result(names, wv.cpu().numpy().tolist(), alphas)
+        csv_record.add_weight_result(names, wv.cpu().numpy().tolist(), alphas)
 
         return num_oracle_calls, is_updated, names, wv.cpu().numpy().tolist(),alphas
 
@@ -813,6 +813,49 @@ class Helper:
         utils.csv_record.add_weight_result(names, wv, alpha)
         return True, names, wv, alpha
 
+
+    @staticmethod
+    def weighted_average_oracle(points, weights):
+        """Computes weighted average of atoms with specified weights
+
+        Args:
+            points: list, whose weighted average we wish to calculate
+                Each element is a list_of_np.ndarray
+            weights: list of weights of the same length as atoms
+        """
+        tot_weights = torch.sum(weights)
+
+        weighted_updates= dict()
+
+        for name, data in points[0].items():
+            weighted_updates[name]=  torch.zeros_like(data)
+        for w, p in zip(weights, points): # 对每一个agent
+            for name, data in weighted_updates.items():
+                temp = (w / tot_weights).float().to(config.device)
+                temp= temp* (p[name].float())
+                # temp = w / tot_weights * p[name]
+                if temp.dtype!=data.dtype:
+                    temp = temp.type_as(data)
+                data.add_(temp)
+
+        return weighted_updates
+
+    @staticmethod
+    def geometric_median_objective(median, points, alphas):
+        """Compute geometric median objective."""
+        temp_sum= 0
+        for alpha, p in zip(alphas, points):
+            temp_sum += alpha * Helper.l2dist(median, p)
+        return temp_sum
+
+
+    @staticmethod
+    def l2dist(p1, p2):
+        """L2 distance between p1, p2, each of which is a list of nd-arrays"""
+        squared_sum = 0
+        for name, data in p1.items():
+            squared_sum += torch.sum(torch.pow(p1[name]- p2[name], 2))
+        return math.sqrt(squared_sum)
 
 
 class FoolsGold(object):
