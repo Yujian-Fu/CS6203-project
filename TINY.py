@@ -42,62 +42,73 @@ if __name__ == "__main__":
 
     if mode == "cen" or mode == "all":
         check_correctness = True
+        logger.info("Testing Centralized Multi-Shot on Tiny")
+        test_conf(base.parameter_base, cen_multi.parameters, "cen_multi")
+
         logger.info("Testing Centralized Single-Shot on Tiny")
         test_conf(base.parameter_base, cen_sing.parameters, "cen_sing")
 
-        logger.info("Testing Centralized Multi-Shot on Tiny")
-        test_conf(base.parameter_base, cen_multi.parameters, "cen_multi")
 
 
     if mode == "multi_cen" or mode == "all":
         check_correctness = True
-        logger.info("Testing Multi-Distributed Single-Shot on Tiny")
-        test_conf(base.parameter_base, multi_cen_sing.parameters, "multi_cen_sing")
-
         logger.info("Testing Multi-Distributed Multi-Shot on Tiny")
         test_conf(base.parameter_base, multi_cen_multi.parameters, "multi_cen_multi")
 
 
+        logger.info("Testing Multi-Distributed Single-Shot on Tiny")
+        test_conf(base.parameter_base, multi_cen_sing.parameters, "multi_cen_sing")
+
+
+
     if mode == "dis" or mode == "all":
         check_correctness = True
-        logger.info("Testing Distributed Single-Shot on Tiny")
-        test_conf(base.parameter_base, dis_sing.parameters, "dis_sing")
-
         logger.info("Testing Distributed Multi-Shot on Tiny")
         test_conf(base.parameter_base, dis_multi.parameters, "dis_multi")
 
 
+        logger.info("Testing Distributed Single-Shot on Tiny")
+        test_conf(base.parameter_base, dis_sing.parameters, "dis_sing")
+
+
+
     if mode == "diff" or mode == "all":
         check_correctness = True
-        logger.info("Testing Diff-Privacy Single-Shot on Tiny")
-        test_conf(base.parameter_base, diff_privacy_multi_001.parameters, "diff-001")
-
         logger.info("Testing Distributed Multi-Shot on Tiny")
         test_conf(base.parameter_base, diff_privacy_multi_002.parameters, "diff-002")
     
+
+        logger.info("Testing Diff-Privacy Single-Shot on Tiny")
+        test_conf(base.parameter_base, diff_privacy_multi_001.parameters, "diff-001")
+
+
     if mode == "double_pix" or mode == "all":
         check_correctness = True
-        logger.info("Testing Double Pixel Single-Shot on Tiny")
-        test_conf(base.parameter_base, double_pixel_sing.parameters, "double_pix_sing")
-
         logger.info("Testing Double Pixel Multi-Shot on Tiny")
         test_conf(base.parameter_base, double_pixel_multi.parameters, "double_pix_multi")
     
+        logger.info("Testing Double Pixel Single-Shot on Tiny")
+        test_conf(base.parameter_base, double_pixel_sing.parameters, "double_pix_sing")
+
+
     if mode == "defense" or mode == "all":
         check_correctness = True
-        logger.info("Testing GeoMedian Single-Shot on Tiny")
-        test_conf(base.parameter_base, geomedian.parameters, "geomedian")
-
         logger.info("Testing Double Pixel Multi-Shot on Tiny")
         test_conf(base.parameter_base, foolsgold.parameters, "foolsgold")
 
+        logger.info("Testing GeoMedian Single-Shot on Tiny")
+        test_conf(base.parameter_base, geomedian.parameters, "geomedian")
+
+
     if mode == "half_attack" or mode == "all":
         check_correctness = True
+        logger.info("Testing Half Attack Multi-Shot on Tiny")
+        test_conf(base.parameter_base, half_attack_multi.parameters, "half_attack_multi")
+
+
         logger.info("Testing Half Attack Single-Shot on Tiny")
         test_conf(base.parameter_base, half_attack_sing.parameters, "half_attack_sing")
 
-        logger.info("Testing Half Attack Multi-Shot on Tiny")
-        test_conf(base.parameter_base, half_attack_multi.parameters, "half_attack_multi")
 
     if not check_correctness:
         print("Mode Error! Choose from these setting: ", mode_list)
