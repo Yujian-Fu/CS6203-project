@@ -1,7 +1,9 @@
 # CS6203-project
 This is the project for CS6203 in NUS
+
 Environment Requirements:
-Pytorch
+
+Pytorch, Matplotlib
 
 **Run the experiments:**
 
@@ -20,6 +22,8 @@ python CIFAR.py --params double_pix
 python CIFAR.py --params half_attack
 
 python CIFAR.py --params defense
+
+**Meaning of the parameter: cen for "centralized", multi_cen for "multi_centralized", dis for "distributed", double_pix for "double_pixel", half_attack for "half_attacker", defense for "FoolsGold and Geomedian**
 
 **Run all above in sequence:**
 
