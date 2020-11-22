@@ -91,6 +91,7 @@ def draw_similarity_figure(target_folder, label):
             plt.scatter(list_x, list_y, color = 'indianred', marker=".", label = "Worker")
             plt.legend()
             plt.savefig(similarity_figure_folder + "_" + label + "_" +parameter_name + " Cosine Distance.png")
+            plt.close()
 
         for parameter_name in attacker_dis_dict:
             plt.figure()
@@ -108,6 +109,7 @@ def draw_similarity_figure(target_folder, label):
                 list_y.append(item[1])
             plt.scatter(list_x, list_y, color = 'indianred', marker=".", label = "Worker")
             plt.savefig(similarity_figure_folder + "_" + label + "_" +parameter_name + " Relative Distance.png")
+            plt.close()
 
 
 MarkerSize = 3
