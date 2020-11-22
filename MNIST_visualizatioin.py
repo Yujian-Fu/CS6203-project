@@ -53,6 +53,7 @@ def draw_similarity_figure(target_folder, label):
             else:
                 epoch = int(line.split(" ")[0])
                 record = line.split(" ")[2:-1]
+                print(record)
                 if line.split(" ")[1] == prev_name:
                     if mode == -1:
                         for idx, parameter_name in enumerate(weight_list):
