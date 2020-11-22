@@ -1,6 +1,5 @@
 from utils.utils import Helper
 from utils.utils_model import MnistNet
-from utils.config import device
 import torch
 import random
 import logging
