@@ -16,6 +16,7 @@ poisontriggertest_result = []  # triggertest_fileHeader
 posion_test_result = []  # train_fileHeader
 posion_posiontest_result = []  # train_fileHeader
 scale_result=[]
+weight_result=[]
 
 def save_result_csv(epoch, is_posion,folder_path):
     train_csvFile = open(f'{folder_path}/train_result.csv', "w")
@@ -43,5 +44,8 @@ def save_result_csv(epoch, is_posion,folder_path):
         test_writer.writerows(poisontriggertest_result)
         test_csvFile.close()
 
-
+def add_weight_result(name,weight,alpha):
+    weight_result.append(name)
+    weight_result.append(weight)
+    weight_result.append(alpha)
 

@@ -5,7 +5,7 @@ import time
 import logging
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
+import torch.nn.functional as F 
 import numpy as np 
 
 import sklearn.metrics.pairwise as smp
@@ -19,7 +19,7 @@ import utils.csv_record as csv_record
 from utils.utils_model import SimpleNet
 
 logger = logging.getLogger("logger")
-def train_process(helper):
+def train_process(helper, compute_similarity = False):
 
     similarity_other_path = helper.folder_path + "/model_co_similarity.txt"
     similarity_other_file = open(similarity_other_path, 'w')
