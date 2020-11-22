@@ -23,7 +23,7 @@ python CIFAR.py --params half_attack
 
 python CIFAR.py --params defense
 
-**Meaning of the parameter: cen for "centralized", multi_cen for "multi_centralized", dis for "distributed", double_pix for "double_pixel", half_attack for "half_attacker", defense for "FoolsGold and Geomedian**
+**Meaning of the parameter: cen for "centralized", multi_cen for "multi_centralized", dis for "distributed", double_pix for "double_pixel", half_attack for "half_attacker", defense for "FoolsGold and Geomedian"**
 
 **Run all above in sequence:**
 
@@ -54,6 +54,10 @@ python CIFAR_visualization.py --params all
 **Visualize the MNIST results:**
 
 python MNIST_visualization.py --params all
+
+**If you only want compare two settings, ensure you have the result of distributed setting, then add the parameter that you want to compare behind, for example, to compare centralized setting in MNIST:**
+
+python MNIST_visualization.py --params cen
 
 
 **Visualize the Similarity Results**
