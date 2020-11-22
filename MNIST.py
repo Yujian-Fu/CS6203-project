@@ -1,12 +1,12 @@
 import datetime
 from MNIST_utils import MNIST
-from paras.cifar import base
-from paras.cifar import cen_sing, cen_multi
-from paras.cifar import diff_privacy_multi_001, diff_privacy_multi_002
-from paras.cifar import dis_multi, dis_sing
-from paras.cifar import foolsgold, geomedian
-from paras.cifar import double_pixel_multi, double_pixel_sing
-from paras.cifar import half_attack_multi, half_attack_sing
+from paras.Mnist import base
+from paras.Mnist import cen_sing, cen_multi
+from paras.Mnist import diff_privacy_multi_001, diff_privacy_multi_002
+from paras.Mnist import dis_multi, dis_sing
+from paras.Mnist import foolsgold, geomedian
+from paras.Mnist import double_pixel_multi, double_pixel_sing
+from paras.Mnist import half_attack_multi, half_attack_sing
 
 import utils.utils
 import logging
@@ -19,7 +19,7 @@ logger.setLevel(logging.INFO)
 logger.addHandler(logging.StreamHandler())
 
 def run_test(parameters, current_time, folder_name):
-    helper = CIFAR(current_time, folder_name, parameters)
+    helper = MNIST(current_time, folder_name, parameters)
     helper.create_model()
     helper.load_data()
     utils.utils.train_process(helper)
