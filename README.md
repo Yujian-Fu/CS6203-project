@@ -37,6 +37,8 @@ python MNIST.py --params all
 
 python MNIST.py --params similarity
 
+You will find the record file in saved_models folder with respective folder with dataset name and parameter setting, in the record folder, "posiontest_result.csv" is the record for target task, "test_result.csv" is the result for main task.
+
 **Visualizatioin:**
 
 mkdir ./saved_figures
