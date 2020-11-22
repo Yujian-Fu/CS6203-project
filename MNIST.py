@@ -86,10 +86,10 @@ if __name__ == "__main__":
     
     if mode == "defense" or mode == "all":
         check_correctness = True
-        logger.info("Testing Double Pixel Multi-Shot on Mnist")
+        logger.info("Testing FoolsGold Multi-Shot on Mnist")
         test_conf(base.parameter_base, foolsgold.parameters, "foolsgold")
 
-        logger.info("Testing GeoMedian Single-Shot on Mnist")
+        logger.info("Testing GeoMedian Multi-Shot on Mnist")
         test_conf(base.parameter_base, geomedian.parameters, "geomedian")
 
     if mode == "half_attack" or mode == "all":
