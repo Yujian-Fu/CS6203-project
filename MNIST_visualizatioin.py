@@ -39,7 +39,7 @@ def draw_similarity_figure(target_folder, label):
             if "Epoch" in line:
                 weight_list = list(filter(None,line.split(' ')))[2:-1]
                 for weight_name in weight_list:
-                    peinr(weight_name)
+                    print(weight_name)
                     attacker_dis_dict[weight_name] = []
                     begnign_dis_dict[weight_name] = []
                     attacker_cos_dict[weight_name] = []
