@@ -437,7 +437,7 @@ class Helper:
         logger.setLevel(logging.INFO)
         self.params['current_time'] = self.current_time
         self.params['folder_path'] = self.folder_path
-        self.fg= FoolsGold()
+        self.fg= FoolsGold(use_memory = self.params['fg_use_memory'])
 
     # set all values to zero to the model parameter
     def init_weight_accumulator(self, target_model):
@@ -897,10 +897,11 @@ class Helper:
 
 
 class FoolsGold(object):
-    def __init__(self):
+    def __init__(self, use_memory=False):
         self.memory = None
         self.memory_dict=dict()
         self.wv_history = []
+        self.use_memory = use_memory
 
     def aggregate_gradients(self, client_grads,names):
         cur_time = time.time()

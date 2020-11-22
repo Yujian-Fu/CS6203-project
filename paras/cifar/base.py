@@ -4,7 +4,7 @@ parameter_base = {
 'test_batch_size': 64,
 'lr': 0.1,
 'poison_lr': 0.05,
-
+'fg_use_memory': True,
 'momentum': 0.9,
 'decay': 0.0005,
 'batch_size': 64,
