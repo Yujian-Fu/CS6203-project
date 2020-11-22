@@ -72,9 +72,10 @@ def draw_similarity_figure(target_folder, label):
 
                 prev_name = record[1]
 
-        list_x = []
-        list_y = []    
+
         for parameter_name in attacker_cos_dict:
+            list_x = []
+            list_y = []  
             plt.figure()
             plt.xlabel("Iteration")
             plt.ylabel("Cosine Similarity")
@@ -95,9 +96,10 @@ def draw_similarity_figure(target_folder, label):
             plt.savefig(similarity_figure_folder + label + "_" +parameter_name + " Cosine Distance.png")
             plt.close()
 
-        list_x = []
-        list_y = []
+
         for parameter_name in attacker_dis_dict:
+            list_x = []
+            list_y = []
             plt.figure()
             plt.xlabel("Iteration")
             plt.ylabel("Distance Similarity")
@@ -106,7 +108,7 @@ def draw_similarity_figure(target_folder, label):
                 list_y.append(item[1])
             print(len(list_x), len(list_y), label + "_" +parameter_name + " Relative Distance.png")
             plt.scatter(list_x, list_y, color = 'indianred', marker=".", label = "Attacker")
-            
+
             list_x = []
             list_y = []
 
