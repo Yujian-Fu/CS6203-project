@@ -13,22 +13,22 @@ import utils.utils
 import logging
 import argparse
 
-mode_list = ["cen", "multi_cen", "diff", "dis", "double_pix", "defense", "half_attack", "all"]
+mode_list = ["cen", "multi_cen", "diff", "dis", "double_pix", "defense", "half_attack", "similarity", "all"]
 
 logger = logging.getLogger("main logger")
 logger.setLevel(logging.INFO)
 logger.addHandler(logging.StreamHandler())
 
-def run_test(parameters, current_time, folder_name):
+def run_test(parameters, current_time, folder_name, similarity_test = False):
     helper = MNIST(current_time, folder_name, parameters)
     helper.create_model()
     helper.load_data()
-    utils.utils.train_process(helper)
+    utils.utils.train_process(helper, similarity_test)
 
-def test_conf(base_para, choice_para, name):
+def test_conf(base_para, choice_para, name, similarity_test = False):
     base_para.update(choice_para)
     current_time = datetime.datetime.now().strftime('%b.%d_%H.%M.%S')
-    run_test(base_para, current_time, "mnist_" + name)
+    run_test(base_para, current_time, "mnist_" + name, similarity_test)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='mode')
@@ -96,6 +96,17 @@ if __name__ == "__main__":
 
         logger.info("Testing Half Attack Multi-Shot on Mnist")
         test_conf(base.parameter_base, half_attack_multi.parameters, "half_attack_multi")
+
+    if mode == "similarity":
+        check_correctness = True
+        logger.info("Testing similarity on single and multi shot setting")
+        test_conf(base.parameter_base, dis_sing.parameters, "dis_sing_simi", True)
+
+        test_conf(base.parameter_base, dis_multi.parameters, "dis_multi_simi", True)
+
+
+
+
 
     if not check_correctness:
         print("Mode Error! Choose from these setting: ", mode_list)

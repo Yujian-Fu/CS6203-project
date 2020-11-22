@@ -20,6 +20,7 @@ from utils.utils_model import SimpleNet
 
 
 logger = logging.getLogger("logger")
+
 def train_process(helper, compute_similarity = False):
 
     similarity_other_path = helper.folder_path + "/model_co_similarity.txt"
@@ -69,7 +70,9 @@ def train_process(helper, compute_similarity = False):
         weight_accumulator, updates = helper.accumulate_weight(weight_accumulator, epochs_submit_update_dict,
                                                                agent_name_keys, num_samples_dict)
         
-        #layer_analysis(agent_name_keys, adversarial_name_keys, updates, similarity_other_file, similarity_mean_file, write_header, epoch)
+        if (compute_similarity):
+            layer_analysis(agent_name_keys, adversarial_name_keys, updates, similarity_other_file, similarity_mean_file, write_header, epoch)
+
         write_header = True
 
         if helper.params['aggregation_methods'] == 'mean':
