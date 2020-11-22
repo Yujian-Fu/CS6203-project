@@ -16,15 +16,11 @@ from collections import defaultdict
 import utils.train as train
 import utils.csv_record as csv_record
 from utils.utils_model import SimpleNet
+import utils.config.device as device
 
 
 logger = logging.getLogger("logger")
-device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-
 def train_process(helper, compute_similarity = False):
-
-    if compute_similarity:
-        device = torch.device('cpu')
 
     similarity_other_path = helper.folder_path + "/model_co_similarity.txt"
     

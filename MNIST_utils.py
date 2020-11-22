@@ -1,11 +1,12 @@
 from utils.utils import Helper
 from utils.utils_model import MnistNet
+from utils.config import device
 import torch
 import random
 import logging
 from torchvision import datasets, transforms
 
-device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+
 class MNIST(Helper):
 
     def create_model(self, similarity_test):
