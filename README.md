@@ -33,7 +33,10 @@ You will find the figures in "saved_figures/cifar" and "saved_figures/mnist" res
 
 Repos for reference:
 https://github.com/AI-secure/DBA
+
 https://github.com/ebagdasa/backdoor_federated_learning
+
 https://github.com/krishnap25/RFA
+
 https://github.com/DistributedML/FoolsGold
 
