@@ -3,7 +3,7 @@ This is the project for CS6203 in NUS
 
 Environment Requirements:
 
-Pytorch, Matplotlib
+Pytorch, Matplotlib (Tested on Ubuntu18.04 with Pytorch 1.6.0)
 
 **Run the experiments:**
 
