@@ -57,16 +57,15 @@ python CIFAR_visualization.py --params all
 
 python MNIST_visualization.py --params all
 
-**If you only want compare two settings, ensure you have the result of distributed setting, then add the parameter that you want to compare behind, for example, to compare centralized setting in MNIST:**
+**If you only want compare two settings, ensure you have the result of distributed setting (the baseline for all comparison), then add the parameter that you want to compare at behind, for example, to compare centralized setting in MNIST:**
 
 python MNIST_visualization.py --params cen
-
 
 **Visualize the Similarity Results**
 
 python MNIST_visualization.py --params similarity
 
-**You will find the figures in "saved_figures/cifar", "saved_figures/mnist", "saved_figures/similarity" respectively**
+**You will find the result figures in "saved_figures/cifar", "saved_figures/mnist", "saved_figures/similarity" respectively**
 
 
 **Acknowledgement**
