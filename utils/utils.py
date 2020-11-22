@@ -249,6 +249,9 @@ def layer_analysis(agent_name_keys, adversarial_name_keys, updates, similarity_o
         adversarial_weight = updates[adversarial_key][1]
         for parameter_name in adversarial_weight:
             division = (adversarial_weight[parameter_name].numpy() - begnign_base_dict[parameter_name]) / begnign_base_dict[parameter_name]
+            print(np.sum(adversarial_weight[parameter_name].numpy() * begnign_base_dict[parameter_name]))
+            print(np.sum(np.power(adversarial_weight[parameter_name].numpy(), 2)))
+            print(np.sum(np.power(begnign_base_dict[parameter_name], 2)))
             cosine = np.sum(adversarial_weight[parameter_name].numpy() * begnign_base_dict[parameter_name]) / np.power((np.sum(np.power(adversarial_weight[parameter_name].numpy(), 2)) * np.sum(np.power(begnign_base_dict[parameter_name], 2))), 0.5)
 
             similarity_result = np.mean(np.abs(division))
