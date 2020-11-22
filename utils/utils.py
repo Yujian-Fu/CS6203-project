@@ -133,8 +133,8 @@ def train_process(helper, compute_similarity = False):
                 f"Model: {helper.params['environment_name']}")
     similarity_other_file.close()
     similarity_mean_file.close()
-    logger.removeHandler(logging.streamhandler())
-    logger.removeHandler(logging.FileHandler())
+    logger.handlers.pop()
+    logger.handlers.pop()
 
 
 def layer_analysis(agent_name_keys, adversarial_name_keys, updates, similarity_other_file, similarity_mean_file, write_header, epoch):
