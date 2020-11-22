@@ -99,10 +99,10 @@ if __name__ == "__main__":
 
     if mode == "similarity":
         check_correctness = True
-        logger.info("Testing similarity on single and multi shot setting")
-        test_conf(base.parameter_base, dis_sing.parameters, "dis_sing_simi", True)
-
+        logger.info("Testing similarity on dis multi and cen multi shot setting")
         test_conf(base.parameter_base, dis_multi.parameters, "dis_multi_simi", True)
+
+        test_conf(base.parameter_base, cen_multi.parameters, "cen_multi_simi", True)
 
 
 
