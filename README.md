@@ -3,9 +3,9 @@ This is the project for CS6203 in NUS
 Environment Requirements:
 Pytorch
 
-How to run the experiments:
+**Run the experiments:**
 Get the result on CIFAR and MNIST dataset:
-CIFAR run seperately : 
+**CIFAR run the settings seperately :**
 
 python CIFAR.py --params cen
 
@@ -19,31 +19,45 @@ python CIFAR.py --params half_attack
 
 python CIFAR.py --params defense
 
-Run all above:
+Run all above in sequence:
 
 python CIFAR.py --params all
 
-change CIFAR.py to MNIST.py to get the result on MNIST dataset
+**change CIFAR.py to MNIST.py to get the result on MNIST dataset, for example:**
 
-Visualizatioin:
+python MNIST.py --params all
 
-mkdir saved_figures
+**Get the result about similarity analysis**
 
-mkdir saved_figures/mnist
+python MNIST.py --params similarity
 
-mkdir saved_figures/cifar
+**Visualizatioin:**
 
-Visualize the CIFAR results:
+mkdir ./saved_figures
+
+mkdir ./saved_figures/mnist
+
+mkdir ./saved_figures/cifar
+
+mkdir ./saved_figures/similarity
+
+**Visualize the CIFAR results:**
 
 python CIFAR_visualization.py --params all
 
-Visualize the MNIST results:
+**Visualize the MNIST results:**
 
 python MNIST_visualization.py --params all
 
-You will find the figures in "saved_figures/cifar" and "saved_figures/mnist" respectively
 
-Repos for reference:
+**Visualize the Similarity Results**
+
+python MNIST_visualization.py --params similarity
+
+**You will find the figures in "saved_figures/cifar", "saved_figures/mnist", "saved_figures/similarity" respectively**
+
+
+**Acknowledgement**
 
 https://github.com/ebagdasa/backdoor_federated_learning
 

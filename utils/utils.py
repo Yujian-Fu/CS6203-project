@@ -242,16 +242,12 @@ def layer_analysis(agent_name_keys, adversarial_name_keys, updates, similarity_o
             begnign_similarity_dict[begnign_key][parameter_name] = round(begnign_similarity_dict[begnign_key][parameter_name] / (len(agent_name_keys)-1), 2)
 
 
-
     for adversarial_key in adversarial_name_keys:
         adversarial_mean_dict[adversarial_key] = {}
         adversarial_cosine_dict[adversarial_key] = {}
         adversarial_weight = updates[adversarial_key][1]
         for parameter_name in adversarial_weight:
             division = (adversarial_weight[parameter_name].numpy() - begnign_base_dict[parameter_name]) / begnign_base_dict[parameter_name]
-            print(np.sum(adversarial_weight[parameter_name].numpy() * begnign_base_dict[parameter_name]))
-            print(np.sum(np.power(adversarial_weight[parameter_name].numpy(), 2)))
-            print(np.sum(np.power(begnign_base_dict[parameter_name], 2)))
             cosine = np.sum(adversarial_weight[parameter_name].numpy() * begnign_base_dict[parameter_name]) / np.power((np.sum(np.power(adversarial_weight[parameter_name].numpy(), 2)) * np.sum(np.power(begnign_base_dict[parameter_name], 2))), 0.5)
             assert(cosine <= 1 and cosine >= -1.0)
 

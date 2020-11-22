@@ -11,6 +11,7 @@ main_file_name = "test_result.csv"
 
 
 mnist_figure_folder = "./saved_figures/mnist/"
+similarity_figure_folder = './saved_figures/similarity/'
 
 color = ['lightseagreen',
 'indianred',
@@ -71,6 +72,8 @@ if __name__ == "__main__":
     
     mode = args.params
     check_correctness = False
+    if not os.path.exists(mnist_figure_folder):
+        os.makedirs(mnist_figure_folder)
 
     dis_sing_folder = "./saved_models/mnist_dis_sing/"
     dis_multi_folder = "./saved_models/mnist_dis_multi/"
@@ -128,13 +131,118 @@ if __name__ == "__main__":
         draw_figure(base_folder, target_folder, ["dis_multi", "geomedian"])
     
     if mode == "similarity":
+        if not os.path.exists(similarity_figure_folder):
+            os.makedirs(similarity_figure_folder)
+        
         target_folder = "./saved_models/mnist_dis_multi_simi/"
         base_folder, target_folder = get_newest_folder(dis_sing_folder, target_folder)
+        draw_similarity_figure(target_folder, "dis_multi")
 
-        with open(target_folder + "/model_mean_similarity.txt" , 'r'):
-            rl = f.readlines()
-            for line in rl:
+        target_folder = "./saved_models/mnist_cen_multi_simi/"
+        base_folder, target_folder = get_newest_folder(dis_sing_folder, target_folder)
+        draw_similarity_figure(target_folder, "cen_multi")
+
+
+
+def draw_similarity_figure(target_folder, label):
+    with open(target_folder + "/model_mean_similarity.txt" , 'r') as f:
+        attacker_dis_dict = {}
+        attacker_cos_dict = {}
+
+        begnign_dis_dict = {}
+        begnign_cos_dict = {}
+
+        weight_list = []
+
+        mode = 0
+        prev_name = ""
+        rl = f.readlines()
+        for line in rl:
+            if "Epoch" in line:
+                weight_list = line.split(" ")[2:]
+                for weight_name in weight_list:
+                    attacker_dis_dict[weight_name] = []
+                    begnign_dis_dict[weight_name] = []
+                    attacker_cos_dict[weight_name] = []
+                    attacker_dis_dict[weight_name] = []
+            
+            elif "Attacker" in line:
+                mode = -1
                 
+            elif "Begnign" in line:
+                mode = 1
+            
+            else:
+                epoch = int(line.split(" ")[0])
+                record = line.split(" ")[2:]
+                if line.split(" ")[1] == prev_name:
+                    if mode == -1:
+                        for idx, parameter_name in enumerate(weight_list):
+                            attacker_cos_dict[parameter_name].append([epoch, float(record[idx])])
+                    else:
+                        for idx, parameter_name in enumerate(weight_list):
+                            begnign_cos_dict[parameter_name].append([epoch, float(record[idx])])
+
+                else:
+                    if mode == -1:
+                        for idx, parameter_name in enumerate(weight_list):
+                            attacker_dis_dict[parameter_name].append([epoch, float(record[idx])])
+                    else:
+                        for idx, parameter_name in enumerate(weight_list):
+                            begnign_dis_dict[parameter_name].append([epoch, float(record[idx])])
+
+                prev_name = line.split(" ")[1]
+
+        list_x = []
+        list_y = []    
+        for parameter_name in attacker_cos_dict:
+            plt.figure()
+            plt.xlabel("Iteration")
+            plt.ylabel("Cosine Similarity")
+            for item in attacker_cos_dict[parameter_name]:
+                list_x.append(item[0])
+                list_y.append(item[1] * 0.5 + 0.5)
+            plt.scatter(list_x, list_y, color = 'lightseagreen', marker=".", label = "Attacker")
+            list_x = []
+            list_y = []
+
+            for item in begnign_cos_dict[parameter_name]:
+                list_x.append(item[0])
+                list_y.append(item[1] * 0.5 + 0.5)
+            plt.scatter(list_x, list_y, color = 'indianred', marker=".", label = "Worker")
+            plt.legend()
+            plt.savefig(similarity_figure_folder + "_" + label + "_" +parameter_name + " Cosine Distance.png")
+
+        for parameter_name in attacker_dis_dict:
+            plt.figure()
+            plt.xlabel("Iteration")
+            plt.ylabel("Distance Similarity")
+            for item in attacker_dis_dict[parameter_name]:
+                list_x.append(item[0])
+                list_y.append(item[1])
+            plt.scatter(list_x, list_y, color = 'lightseagreen', marker=".", label = "Attacker")
+            list_x = []
+            list_y = []
+
+            for item in begnign_dis_dict[parameter_name]:
+                list_x.append(item[0])
+                list_y.append(item[1])
+            plt.scatter(list_x, list_y, color = 'indianred', marker=".", label = "Worker")
+            plt.savefig(similarity_figure_folder + "_" + label + "_" +parameter_name + " Relative Distance.png")
+
+
+
+
+
+
+
+                            
+
+
+
+
+
+
 
     
 

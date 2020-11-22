@@ -92,7 +92,6 @@ if __name__ == "__main__":
         logger.info("Testing GeoMedian Single-Shot on Mnist")
         test_conf(base.parameter_base, geomedian.parameters, "geomedian")
 
-
     if mode == "half_attack" or mode == "all":
         check_correctness = True
         logger.info("Testing Half Attack Single-Shot on Mnist")
@@ -104,9 +103,11 @@ if __name__ == "__main__":
     if mode == "similarity":
         check_correctness = True
         logger.info("Testing similarity on dis multi and cen multi shot setting")
+        test_conf(base.parameter_base, cen_multi.parameters, "cen_multi_simi", True)
+
         test_conf(base.parameter_base, dis_multi.parameters, "dis_multi_simi", True)
 
-        #test_conf(base.parameter_base, cen_multi.parameters, "cen_multi_simi", True)
+        
 
 
     if not check_correctness:
