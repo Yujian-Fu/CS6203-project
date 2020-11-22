@@ -16,7 +16,7 @@ from collections import defaultdict
 import utils.train as train
 import utils.csv_record as csv_record
 from utils.utils_model import SimpleNet
-import utils.config.device as device
+from utils.config import device
 
 
 logger = logging.getLogger("logger")
