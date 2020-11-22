@@ -51,7 +51,7 @@ def draw_similarity_figure(target_folder, label):
                 mode = 1
             
             else:
-                record = list(filter(None,line.split(' ')))[0"-1]
+                record = list(filter(None,line.split(' ')))[0:-1]
                 epoch = int(record[0])
 
                 if record[1] == prev_name:
