@@ -154,6 +154,8 @@ def layer_analysis(agent_name_keys, adversarial_name_keys, updates, similarity_o
     begnign_base_dict = {}
     adversarial_mean_dict = {}
     begnign_mean_dict = {}
+    adversarial_cosine_dict = {}
+    begnign_cosine_dict = {}
 
     #for begnign_key in begnign_name_keys:
     for begnign_key in agent_name_keys:
@@ -247,26 +249,41 @@ def layer_analysis(agent_name_keys, adversarial_name_keys, updates, similarity_o
 
     for adversarial_key in adversarial_name_keys:
         adversarial_mean_dict[adversarial_key] = {}
+        adversarial_cosine_dict[adversarial_key] = {}
         adversarial_weight = updates[adversarial_key][1]
         for parameter_name in adversarial_weight:
             division = (adversarial_weight[parameter_name].numpy() - begnign_base_dict[parameter_name]) / begnign_base_dict[parameter_name]
+            cosine = (adversarial_weight[parameter_name].numpy() * begnign_base_dict[parameter_name]) / (np.sum(np.pow(adversarial_weight[parameter_name].numpy(), 2)) * np.sum(np.pow(begnign_base_dict[parameter_name], 2)))
+
             similarity_result = np.mean(np.abs(division))
             if parameter_name not in adversarial_mean_dict[adversarial_key]:
                 adversarial_mean_dict[adversarial_key][parameter_name] = similarity_result
             else:
                 adversarial_mean_dict[adversarial_key][parameter_name] += similarity_result
+            
+            if parameter_name not in adversarial_cosine_dict[adversarial_key]:
+                adversarial_cosine_dict[adversarial_key][parameter_name] = cosine
+            else:
+                adversarial_cosine_dict[adversarial_key][parameter_name] += cosine
 
     for begnign_key in begnign_name_keys:
         begnign_mean_dict[begnign_key] = {}
+        begnign_cosine_dict[begnign_key] = {}
         begnign_weight = updates[begnign_key][1]
         for parameter_name in begnign_weight:
             division = (begnign_weight[parameter_name].numpy() - begnign_base_dict[parameter_name]) / begnign_base_dict[parameter_name]
+            cosine = (begnign_weight[parameter_name].numpy() * begnign_base_dict[parameter_name]) / (np.sum(np.pow(begnign_weight[parameter_name].numpy(), 2)) * np.sum(np.pow(begnign_base_dict[parameter_name], 2)))
+
             similarity_result = np.round(np.mean(np.abs(division)), 2)
             if parameter_name not in begnign_mean_dict[begnign_key]:
                 begnign_mean_dict[begnign_key][parameter_name] = similarity_result
             else:
                 begnign_mean_dict[begnign_key][parameter_name] += similarity_result
 
+            if parameter_name not in begnign_cosine_dict[begnign_key]:
+                begnign_cosine_dict[begnign_key][parameter_name] = cosine
+            else:
+                begnign_cosine_dict[begnign_key][parameter_name] += cosine
 
 
     adversarial_layer_similarity = {}
@@ -339,20 +356,28 @@ def layer_analysis(agent_name_keys, adversarial_name_keys, updates, similarity_o
         similarity_other_file.write(str(begnign_layer_similarity[parameter_name]) + "  ")
     similarity_other_file.write("\n")
 
-    similarity_mean_file.write("Attacker: \n")
+    similarity_mean_file.write("Attacker division dis and cosine dis: \n")
     for agent_key in adversarial_mean_dict:
         similarity_mean_file.write(str(epoch) + "  " + str(agent_key) + " ")
         for parameter_name in adversarial_mean_dict[agent_key]:
             similarity_mean_file.write(str(adversarial_mean_dict[agent_key][parameter_name]) + "  ")
         similarity_mean_file.write("\n")
 
-    similarity_mean_file.write("Begnign Worker: \n")
+        for parameter_name in adversarial_cosine_dict[agent_key]:
+            similarity_mean_file.write(str(adversarial_cosine_dict[agent_key][parameter_name]) + "  ")
+        similarity_mean_file.write("\n")
+
+
+    similarity_mean_file.write("Begnign Worker division dis and cosine dis: \n")
     for agent_key in begnign_mean_dict:
         similarity_mean_file.write(str(epoch) + "  " + str(agent_key) + " ")
         for parameter_name in begnign_mean_dict[agent_key]:
             similarity_mean_file.write(str(begnign_mean_dict[agent_key][parameter_name]) + "  ")
         similarity_mean_file.write("\n")
-
+        
+        for parameter_name in begnign_cosine_dict[agent_key]:
+            similarity_mean_file.write(str(begnign_cosine_dict[agent_key][parameter_name]) + "  ")
+        similarity_mean_file.write("\n")
 
     print("Average begnign record")
     print(begnign_layer_similarity)
