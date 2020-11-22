@@ -84,6 +84,7 @@ def draw_similarity_figure(target_folder, label):
                 list_y.append(item[1] * 0.5 + 0.5)
             print(len(list_x), len(list_y), label + "_" +parameter_name + " Cosine Distance.png")
             plt.scatter(list_x, list_y, color = 'indianred', marker=".", label = "Attacker")
+            
             list_x = []
             list_y = []
 
