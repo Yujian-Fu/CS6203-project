@@ -47,7 +47,7 @@ def draw_figure(folder1, folder2, name_list):
     
     for file_idx, file_name in enumerate([target_file_name, main_file_name]):
         for folder_idx, folder_name in enumerate([folder1, folder2]):
-            filepath = folder_name + file_name
+            filepath = folder_name + "/" + file_name
             record_dict = {}
             with open(filepath, 'r') as f:
                 rl = f.readlines()
