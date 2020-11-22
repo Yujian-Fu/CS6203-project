@@ -100,14 +100,12 @@ if __name__ == "__main__":
         logger.info("Testing Half Attack Multi-Shot on Mnist")
         test_conf(base.parameter_base, half_attack_multi.parameters, "half_attack_multi")
 
-    if mode == "similarity":
+    if mode == "similarity" or mode == "all":
         check_correctness = True
         logger.info("Testing similarity on dis multi and cen multi shot setting")
         test_conf(base.parameter_base, cen_multi.parameters, "cen_multi_simi", True)
 
         test_conf(base.parameter_base, dis_multi.parameters, "dis_multi_simi", True)
-
-        
 
 
     if not check_correctness:
