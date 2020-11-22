@@ -88,6 +88,7 @@ def draw_similarity_figure(target_folder, label):
             for item in begnign_cos_dict[parameter_name]:
                 list_x.append(item[0])
                 list_y.append(item[1] * 0.5 + 0.5)
+            print(len(list_x), len(list_y))
             plt.scatter(list_x, list_y, color = 'indianred', marker=".", label = "Worker")
             plt.legend()
             plt.savefig(similarity_figure_folder + "_" + label + "_" +parameter_name + " Cosine Distance.png")
@@ -107,6 +108,7 @@ def draw_similarity_figure(target_folder, label):
             for item in begnign_dis_dict[parameter_name]:
                 list_x.append(item[0])
                 list_y.append(item[1])
+            print(len(list_x), len(list_y))
             plt.scatter(list_x, list_y, color = 'indianred', marker=".", label = "Worker")
             plt.savefig(similarity_figure_folder + "_" + label + "_" +parameter_name + " Relative Distance.png")
             plt.close()
