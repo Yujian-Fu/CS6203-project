@@ -34,7 +34,7 @@ class TINY(Helper):
                     transforms.RandomHorizontalFlip(),
                     transforms.ToTensor(),
                 ]))
-        self.test_dataset = datasets.CIFAR10('./data/tiny-imagenet-200/', 
+        self.test_dataset = datasets.ImageFolder('./data/tiny-imagenet-200/val/', 
                     transforms.Compose([
                     transforms.ToTensor(),
                 ]))
