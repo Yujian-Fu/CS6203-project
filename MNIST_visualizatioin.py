@@ -37,7 +37,7 @@ def draw_similarity_figure(target_folder, label):
         rl = f.readlines()
         for line in rl:
             if "Epoch" in line:
-                weight_list = line.split(" ")[2:]
+                weight_list = line.split(" ")[2:-1]
                 for weight_name in weight_list:
                     attacker_dis_dict[weight_name] = []
                     begnign_dis_dict[weight_name] = []
@@ -52,7 +52,7 @@ def draw_similarity_figure(target_folder, label):
             
             else:
                 epoch = int(line.split(" ")[0])
-                record = line.split(" ")[2:]
+                record = line.split(" ")[2:-1]
                 if line.split(" ")[1] == prev_name:
                     if mode == -1:
                         for idx, parameter_name in enumerate(weight_list):
@@ -108,7 +108,7 @@ def draw_similarity_figure(target_folder, label):
             plt.scatter(list_x, list_y, color = 'indianred', marker=".", label = "Worker")
             plt.savefig(similarity_figure_folder + "_" + label + "_" +parameter_name + " Relative Distance.png")
 
-            
+
 MarkerSize = 3
 def get_newest_folder(base_folder, compare_folder):
     base_dirs = os.listdir(base_folder)
