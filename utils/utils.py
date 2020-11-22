@@ -437,9 +437,6 @@ class Helper:
         # predefined attacker id list?
         self.advasarial_namelist = self.params['adversary_list']
 
-        # randomly choose the parts id
-        # why call random ? Not random
-
         # the real participant will be selected
         self.participants_list = list(range(self.params['number_of_total_participants']))
         # random.shuffle(self.participants_list)
@@ -695,6 +692,127 @@ class Helper:
             data.requires_grad_(False)
             target.requires_grad_(False)
         return data, target
+
+
+    def geometric_median_update(self, target_model, updates, maxiter=4, eps=1e-5, verbose=False, ftol=1e-6, max_update_norm= None):
+        """Computes geometric median of atoms with weights alphas using Weiszfeld's Algorithm
+               """
+        points = []
+        alphas = []
+        names = []
+        for name, data in updates.items():
+            points.append(data[1]) # update
+            alphas.append(data[0]) # num_samples
+            names.append(name)
+
+        adver_ratio=0
+        for i in range(0,len(names)):
+            _name= names[i]
+            if _name in self.params['adversary_list']:
+                adver_ratio+= alphas[i]
+        adver_ratio= adver_ratio/ sum(alphas)
+        poison_fraction= adver_ratio* self.params['poisoning_per_batch']/ self.params['batch_size']
+        logger.info(f'[rfa agg] training data poison_ratio: {adver_ratio}  data num: {alphas}')
+        logger.info(f'[rfa agg] considering poison per batch poison_fraction: {poison_fraction}')
+
+        alphas = np.asarray(alphas, dtype=np.float64) / sum(alphas)
+        alphas = torch.from_numpy(alphas).float()
+
+        # alphas.float().to(config.device)
+        median = Helper.weighted_average_oracle(points, alphas)
+        num_oracle_calls = 1
+
+        # logging
+        obj_val = Helper.geometric_median_objective(median, points, alphas)
+        logs = []
+        log_entry = [0, obj_val, 0, 0]
+        logs.append(log_entry)
+        if verbose:
+            logger.info('Starting Weiszfeld algorithm')
+            logger.info(log_entry)
+        logger.info(f'[rfa agg] init. name: {names}, weight: {alphas}')
+        # start
+        wv=None
+        for i in range(maxiter):
+            prev_median, prev_obj_val = median, obj_val
+            weights = torch.tensor([alpha / max(eps, Helper.l2dist(median, p)) for alpha, p in zip(alphas, points)],
+                                 dtype=alphas.dtype)
+            weights = weights / weights.sum()
+            median = Helper.weighted_average_oracle(points, weights)
+            num_oracle_calls += 1
+            obj_val = Helper.geometric_median_objective(median, points, alphas)
+            log_entry = [i + 1, obj_val,
+                         (prev_obj_val - obj_val) / obj_val,
+                         Helper.l2dist(median, prev_median)]
+            logs.append(log_entry)
+            if verbose:
+                logger.info(log_entry)
+            if abs(prev_obj_val - obj_val) < ftol * obj_val:
+                break
+            logger.info(f'[rfa agg] iter:  {i}, prev_obj_val: {prev_obj_val}, obj_val: {obj_val}, abs dis: { abs(prev_obj_val - obj_val)}')
+            logger.info(f'[rfa agg] iter:  {i}, weight: {weights}')
+            wv=copy.deepcopy(weights)
+        alphas = [Helper.l2dist(median, p) for p in points]
+
+        update_norm = 0
+        for name, data in median.items():
+            update_norm += torch.sum(torch.pow(data, 2))
+        update_norm= math.sqrt(update_norm)
+
+        if max_update_norm is None or update_norm < max_update_norm:
+            for name, data in target_model.state_dict().items():
+                update_per_layer = median[name] * (self.params["eta"])
+                if self.params['diff_privacy']:
+                    update_per_layer.add_(self.dp_noise(data, self.params['sigma']))
+                if update_per_layer.dtype!=data.dtype:
+                    update_per_layer = update_per_layer.type_as(data)
+                data.add_(update_per_layer)
+            is_updated = True
+        else:
+            logger.info('\t\t\tUpdate norm = {} is too large. Update rejected'.format(update_norm))
+            is_updated = False
+
+        utils.csv_record.add_weight_result(names, wv.cpu().numpy().tolist(), alphas)
+
+        return num_oracle_calls, is_updated, names, wv.cpu().numpy().tolist(),alphas
+
+
+    def foolsgold_update(self,target_model,updates):
+        client_grads = []
+        alphas = []
+        names = []
+        for name, data in updates.items():
+            client_grads.append(data[1])  # gradient
+            alphas.append(data[0])  # num_samples
+            names.append(name)
+
+        adver_ratio = 0
+        for i in range(0, len(names)):
+            _name = names[i]
+            if _name in self.params['adversary_list']:
+                adver_ratio += alphas[i]
+        adver_ratio = adver_ratio / sum(alphas)
+        poison_fraction = adver_ratio * self.params['poisoning_per_batch'] / self.params['batch_size']
+        logger.info(f'[foolsgold agg] training data poison_ratio: {adver_ratio}  data num: {alphas}')
+        logger.info(f'[foolsgold agg] considering poison per batch poison_fraction: {poison_fraction}')
+
+        target_model.train()
+        # train and update
+        optimizer = torch.optim.SGD(target_model.parameters(), lr=self.params['lr'],
+                                    momentum=self.params['momentum'],
+                                    weight_decay=self.params['decay'])
+
+        optimizer.zero_grad()
+        agg_grads, wv,alpha = self.fg.aggregate_gradients(client_grads,names)
+        for i, (name, params) in enumerate(target_model.named_parameters()):
+            agg_grads[i]=agg_grads[i] * self.params["eta"]
+            if params.requires_grad:
+                params.grad = agg_grads[i].to(config.device)
+        optimizer.step()
+        wv=wv.tolist()
+        utils.csv_record.add_weight_result(names, wv, alpha)
+        return True, names, wv, alpha
+
 
 
 class FoolsGold(object):

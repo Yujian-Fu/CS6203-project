@@ -1,5 +1,5 @@
 from utils.utils import Helper
-from utils.utils_model import ResNet, BasicBlock
+from utils.utils_model import MnistNet
 from utils.config import device
 import torch
 import random
@@ -7,12 +7,12 @@ import logging
 from torchvision import datasets, transforms
 
 
-class CIFAR(Helper):
+class MNIST(Helper):
 
     def create_model(self):
-        self.local_model = ResNet(BasicBlock, [2,2,2,2],name='local', created_time=self.current_time)
+        self.local_model = MnistNet(name='local', created_time=self.current_time)
         
-        self.target_model = ResNet(BasicBlock, [2,2,2,2],name='target', created_time=self.current_time)
+        self.target_model = MnistNet(name='target', created_time=self.current_time)
 
        # Caution! this is used in CPU !
         self.local_model=self.local_model.to(device)
@@ -29,11 +29,12 @@ class CIFAR(Helper):
         else:
             self.start_epoch = 1
 
-        self.train_dataset = datasets.CIFAR10('./data', train=True, download=True,
-                            transform=transforms.Compose([transforms.ToTensor(),]))
-        self.test_dataset = datasets.CIFAR10('./data', train=False, 
-                            transform=transforms.Compose([transforms.ToTensor(),]))
-
+        self.train_dataset = datasets.MNIST('./data', train=True, download=True,
+                               transform=transforms.Compose([
+                                   transforms.ToTensor(),]))
+        self.test_dataset = datasets.MNIST('./data', train=False, 
+                               transform=transforms.Compose([
+                                   transforms.ToTensor(),]))
 
 
 
