@@ -21,7 +21,7 @@ logger.addHandler(logging.StreamHandler())
 
 def run_test(parameters, current_time, folder_name, similarity_test = False):
     helper = MNIST(current_time, folder_name, parameters)
-    helper.create_model()
+    helper.create_model(similarity_test)
     helper.load_data()
     utils.utils.train_process(helper, similarity_test)
 

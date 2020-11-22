@@ -14,19 +14,22 @@ import random
 from collections import defaultdict
 
 import utils.train as train
-import utils.config as config
 import utils.csv_record as csv_record
 from utils.utils_model import SimpleNet
 
 
 logger = logging.getLogger("logger")
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 def train_process(helper, compute_similarity = False):
 
+    if compute_similarity:
+        device = torch.device('cpu')
+
     similarity_other_path = helper.folder_path + "/model_co_similarity.txt"
-    similarity_other_file = open(similarity_other_path, 'w')
+    
     similarity_mean_path = helper.folder_path + "/model_mean_similarity.txt"
-    similarity_mean_file = open(similarity_mean_path, 'w')
+    
     write_header = False
 
     weight_accumulator = helper.init_weight_accumulator(helper.target_model)
@@ -71,9 +74,8 @@ def train_process(helper, compute_similarity = False):
                                                                agent_name_keys, num_samples_dict)
         
         if (compute_similarity):
-            layer_analysis(agent_name_keys, adversarial_name_keys, updates, similarity_other_file, similarity_mean_file, write_header, epoch)
-
-        write_header = True
+            layer_analysis(agent_name_keys, adversarial_name_keys, updates, similarity_other_path, similarity_mean_path, write_header, epoch)
+            write_header = True
 
         if helper.params['aggregation_methods'] == 'mean':
             # Average the models
@@ -134,13 +136,14 @@ def train_process(helper, compute_similarity = False):
 
     logger.info(f"This run has a label: {helper.params['current_time']}. "
                 f"Model: {helper.params['environment_name']}")
-    similarity_other_file.close()
-    similarity_mean_file.close()
+
     logger.handlers.pop()
     logger.handlers.pop()
 
 
-def layer_analysis(agent_name_keys, adversarial_name_keys, updates, similarity_other_file, similarity_mean_file, write_header, epoch):
+def layer_analysis(agent_name_keys, adversarial_name_keys, updates, similarity_other_path, similarity_mean_path, write_header, epoch):
+    similarity_other_file = open(similarity_other_path, 'a')
+    similarity_mean_file = open(similarity_mean_path, 'a')
     replace_eps = 1e-6
     begnign_name_keys = list(set(agent_name_keys) - set(adversarial_name_keys))
     adversarial_similarity_dict = {}
@@ -358,6 +361,8 @@ def layer_analysis(agent_name_keys, adversarial_name_keys, updates, similarity_o
     for agent_key in begnign_mean_dict:
         print(agent_key, begnign_mean_dict[agent_key])
 
+    similarity_other_file.close()
+    similarity_mean_file.close()
 ''''''
 
 
@@ -455,7 +460,7 @@ class Helper:
         for name, layer in model.named_parameters():
             size += layer.view(-1).shape[0]
         sum_var = torch.FloatTensor(size).fill_(0)
-        sum_var= sum_var.to(config.device)
+        sum_var= sum_var.to(device)
         size = 0
         for name, layer in model.named_parameters():
             sum_var[size:size + layer.view(-1).shape[0]] = (
@@ -655,8 +660,8 @@ class Helper:
                     new_images[index] = images[index]
                     new_targets[index]= targets[index]
 
-        new_images = new_images.to(config.device)
-        new_targets = new_targets.to(config.device).long()
+        new_images = new_images.to(device)
+        new_targets = new_targets.to(device).long()
         if evaluation:
             new_images.requires_grad_(False)
             new_targets.requires_grad_(False)
@@ -692,8 +697,8 @@ class Helper:
 
     def get_batch(self, train_data, bptt, evaluation=False):
         data, target = bptt
-        data = data.to(config.device)
-        target = target.to(config.device)
+        data = data.to(device)
+        target = target.to(device)
         if evaluation:
             data.requires_grad_(False)
             target.requires_grad_(False)
@@ -813,7 +818,7 @@ class Helper:
         for i, (name, params) in enumerate(target_model.named_parameters()):
             agg_grads[i]=agg_grads[i] * self.params["eta"]
             if params.requires_grad:
-                params.grad = agg_grads[i].to(config.device)
+                params.grad = agg_grads[i].to(device)
         optimizer.step()
         wv=wv.tolist()
         utils.csv_record.add_weight_result(names, wv, alpha)
@@ -837,7 +842,7 @@ class Helper:
             weighted_updates[name]=  torch.zeros_like(data)
         for w, p in zip(weights, points): # 对每一个agent
             for name, data in weighted_updates.items():
-                temp = (w / tot_weights).float().to(config.device)
+                temp = (w / tot_weights).float().to(device)
                 temp= temp* (p[name].float())
                 # temp = w / tot_weights * p[name]
                 if temp.dtype!=data.dtype:
