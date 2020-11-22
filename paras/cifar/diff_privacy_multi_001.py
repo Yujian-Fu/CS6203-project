@@ -6,9 +6,9 @@ parameters = {
 'aggregation_methods': 'mean',
 
 #global lr:
-'eta': 0.1,  # single-shot: 0.1; multi-shot: 1
+'eta': 1,  # single-shot: 0.1; multi-shot: 1
 
-'baseline': False, # single-shot: false; multi-shot:true
+'baseline': True, # single-shot: false; multi-shot:true
 
 # distributed attackers: (training img num : 526 - 527 - 496 - 546)
 #'adversary_list': [17, 33, 77, 11],
