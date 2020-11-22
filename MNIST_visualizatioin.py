@@ -58,7 +58,9 @@ def draw_figure(folder1, folder2, name_list):
             values = [record_dict[iteration] for iteration in record_dict.keys()]
             plt.plot(record_dict.keys(), values, label = name_list[folder_idx] + label_name, marker = 'o', color = color[color_index], markersize = MarkerSize)
             color_index += 1
-    
+    plt.legend()
+    plt.xlabel("Iterations")
+    plt.ylabel("Accuracy")
     plt.savefig(mnist_figure_folder + name_list[0] + "_" + name_list[1] + ".png")
 
 
