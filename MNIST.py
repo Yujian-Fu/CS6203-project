@@ -14,7 +14,7 @@ import utils.utils
 import logging
 import argparse
 
-mode_list = ["cen", "multi_cen", "diff", "dis", "double_pix", "defense", "half_attack", "similarity", "all"]
+mode_list = ["cen", "multi_cen", "dis", "double_pix", "defense", "half_attack", "similarity", "all"]
 
 logger = logging.getLogger("main logger")
 logger.setLevel(logging.INFO)
@@ -66,7 +66,7 @@ if __name__ == "__main__":
         logger.info("Testing Distributed Multi-Shot on Mnist")
         test_conf(base.parameter_base, dis_multi.parameters, "dis_multi")
 
-
+    '''
     if mode == "diff" or mode == "all":
         check_correctness = True
         logger.info("Testing Diff-Privacy Single-Shot on Mnist")
@@ -74,6 +74,7 @@ if __name__ == "__main__":
 
         logger.info("Testing Distributed Multi-Shot on Mnist")
         test_conf(base.parameter_base, diff_privacy_multi_002.parameters, "diff-002")
+    '''
     
     if mode == "double_pix" or mode == "all":
         check_correctness = True
@@ -104,10 +105,7 @@ if __name__ == "__main__":
         logger.info("Testing similarity on dis multi and cen multi shot setting")
         test_conf(base.parameter_base, dis_multi.parameters, "dis_multi_simi", True)
 
-        test_conf(base.parameter_base, cen_multi.parameters, "cen_multi_simi", True)
-
-
-
+        #test_conf(base.parameter_base, cen_multi.parameters, "cen_multi_simi", True)
 
 
     if not check_correctness:

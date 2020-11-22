@@ -127,6 +127,15 @@ if __name__ == "__main__":
         base_folder, target_folder = get_newest_folder(dis_multi_folder, cen_multi_folder)
         draw_figure(base_folder, target_folder, ["dis_multi", "geomedian"])
     
+    if mode == "similarity":
+        target_folder = "./saved_models/mnist_dis_multi_simi/"
+        base_folder, target_folder = get_newest_folder(dis_sing_folder, target_folder)
+
+        with open(target_folder + "/model_mean_similarity.txt" , 'r'):
+            rl = f.readlines()
+            for line in rl:
+                
+
     
 
 

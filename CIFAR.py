@@ -14,7 +14,7 @@ import utils.utils
 import logging
 import argparse
 
-mode_list = ["cen", "multi_cen", "diff", "dis", "double_pix", "defense", "half_attack", "all"]
+mode_list = ["cen", "multi_cen", "dis", "double_pix", "defense", "half_attack", "all"]
 
 logger = logging.getLogger("main logger")
 logger.setLevel(logging.INFO)
@@ -65,7 +65,7 @@ if __name__ == "__main__":
         logger.info("Testing Distributed Multi-Shot on Cifar")
         test_conf(base.parameter_base, dis_multi.parameters, "dis_multi")
 
-
+    '''
     if mode == "diff" or mode == "all":
         check_correctness = True
         logger.info("Testing Diff-Privacy Single-Shot on Cifar")
@@ -73,6 +73,7 @@ if __name__ == "__main__":
 
         logger.info("Testing Distributed Multi-Shot on Cifar")
         test_conf(base.parameter_base, diff_privacy_multi_002.parameters, "diff-002")
+    '''
     
     if mode == "double_pix" or mode == "all":
         check_correctness = True

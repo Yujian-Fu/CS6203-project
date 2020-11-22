@@ -127,7 +127,6 @@ if __name__ == "__main__":
         base_folder, target_folder = get_newest_folder(dis_sing_folder, cen_sing_folder)
         draw_figure(base_folder, target_folder, ["dis_single", "foolsgold"])
 
-
     
     
 
