@@ -105,7 +105,7 @@ if __name__ == "__main__":
         logger.info("Testing similarity on dis multi and cen multi shot setting")
         test_conf(base.parameter_base, cen_multi.parameters, "cen_multi_simi", True)
 
-        #test_conf(base.parameter_base, dis_multi.parameters, "dis_multi_simi", True)
+        test_conf(base.parameter_base, dis_multi.parameters, "dis_multi_simi", True)
 
         
 
