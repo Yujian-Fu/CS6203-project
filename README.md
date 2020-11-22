@@ -21,7 +21,7 @@ python CIFAR.py --params half_attack
 
 python CIFAR.py --params defense
 
-Run all above in sequence:
+**Run all above in sequence:**
 
 python CIFAR.py --params all
 
