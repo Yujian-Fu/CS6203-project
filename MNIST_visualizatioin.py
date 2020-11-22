@@ -138,9 +138,9 @@ if __name__ == "__main__":
         base_folder, target_folder = get_newest_folder(dis_sing_folder, target_folder)
         draw_similarity_figure(target_folder, "dis_multi")
 
-        target_folder = "./saved_models/mnist_cen_multi_simi/"
-        base_folder, target_folder = get_newest_folder(dis_sing_folder, target_folder)
-        draw_similarity_figure(target_folder, "cen_multi")
+        #target_folder = "./saved_models/mnist_cen_multi_simi/"
+        #base_folder, target_folder = get_newest_folder(dis_sing_folder, target_folder)
+        #draw_similarity_figure(target_folder, "cen_multi")
 
 
 

@@ -67,7 +67,6 @@ python MNIST_visualization.py --params similarity
 
 **You will find the result figures in "saved_figures/cifar", "saved_figures/mnist", "saved_figures/similarity" respectively**
 
-
 **Acknowledgement**
 
 **I read, used or adapted some codes from:**
