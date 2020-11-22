@@ -1,7 +1,7 @@
 parameters = {
 
 'diff_privacy': True,
-'sigma': 0.01,
+'sigma': 0.001,
 
 
 # aggregation_methods Allowed values are: [ 'mean', 'geom_median','foolsgold']
