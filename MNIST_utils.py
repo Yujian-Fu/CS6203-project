@@ -14,8 +14,7 @@ class MNIST(Helper):
         self.target_model = MnistNet(name='target', created_time=self.current_time)
 
        # Caution! this is used in CPU !
-        if similarity_test:
-            device = torch.device('cpu')
+
         self.local_model=self.local_model.to(device)
         self.target_model=self.target_model.to(device)
     
