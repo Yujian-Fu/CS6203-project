@@ -24,7 +24,7 @@ color = ['lightseagreen',
 MarkerSize = 3
 def get_newest_folder(base_folder, compare_folder):
     base_dirs = os.listdir(base_folder)
-    compare_dirs = os.listdir(base_folder)
+    compare_dirs = os.listdir(compare_folder)
 
     max_base_date = base_dirs[0]
     max_compare_date = compare_dirs[0]
