@@ -851,7 +851,7 @@ class Helper:
                 params.grad = agg_grads[i].to(device)
         optimizer.step()
         wv=wv.tolist()
-        utils.csv_record.add_weight_result(names, wv, alpha)
+        csv_record.add_weight_result(names, wv, alpha)
         return True, names, wv, alpha
 
 
