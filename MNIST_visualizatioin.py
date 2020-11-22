@@ -37,7 +37,7 @@ def draw_similarity_figure(target_folder, label):
         rl = f.readlines()
         for line in rl:
             if "Epoch" in line:
-                weight_list = list(filter(None,line.split(' ')))
+                weight_list = list(filter(None,line.split(' ')))[0:-1]
                 for weight_name in weight_list:
                     attacker_dis_dict[weight_name] = []
                     begnign_dis_dict[weight_name] = []
@@ -51,10 +51,9 @@ def draw_similarity_figure(target_folder, label):
                 mode = 1
             
             else:
-                record = list(filter(None,line.split(' ')))
+                record = list(filter(None,line.split(' ')))[0"-1]
                 epoch = int(record[0])
-                print(weight_list)
-                print(record)
+
                 if record[1] == prev_name:
                     if mode == -1:
                         for idx, parameter_name in enumerate(weight_list):
