@@ -4,7 +4,9 @@ Environment Requirements:
 Pytorch
 
 **Run the experiments:**
+
 Get the result on CIFAR and MNIST dataset:
+
 **CIFAR run the settings seperately :**
 
 python CIFAR.py --params cen
