@@ -20,6 +20,7 @@ python CIFAR.py --params half_attack
 python CIFAR.py --params defense
 
 Run all above:
+
 python CIFAR.py --params all
 
 change CIFAR.py to MNIST.py to get the result on MNIST dataset
