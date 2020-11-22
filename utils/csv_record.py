@@ -18,6 +18,12 @@ posion_posiontest_result = []  # train_fileHeader
 scale_result=[]
 weight_result=[]
 
+def clear_all_record():
+    posion_test_result = []  # train_fileHeader
+    posion_posiontest_result = []  # train_fileHeader
+    scale_result=[]
+    weight_result=[]
+
 def save_result_csv(epoch, is_posion,folder_path):
     train_csvFile = open(f'{folder_path}/train_result.csv', "w")
     train_writer = csv.writer(train_csvFile)

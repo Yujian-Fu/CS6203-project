@@ -8,6 +8,7 @@ from paras.tiny import dis_multi, dis_sing
 from paras.tiny import foolsgold, geomedian
 from paras.tiny import double_pixel_multi, double_pixel_sing
 from paras.tiny import half_attack_multi, half_attack_sing
+from utils.csv_record import clear_all_record
 
 import utils.utils
 import logging
@@ -20,6 +21,7 @@ logger.setLevel(logging.INFO)
 logger.addHandler(logging.StreamHandler())
 
 def run_test(parameters, current_time, folder_name):
+    clear_all_record()
     helper = TINY(current_time, folder_name, parameters)
     helper.create_model()
     helper.load_data()
