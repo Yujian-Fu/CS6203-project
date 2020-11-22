@@ -55,6 +55,7 @@ def draw_figure(folder1, folder2, name_list):
                     if "global" in line:
                         record_dict[int(line.split(",")[1])] = float(line.split(",")[-3])
             label_name = "_target" if file_idx == 0 else "_main"
+            values = [record_dict[each_iteration] for iteration in record_dict.keys()]
             plt.plot(record_dict.keys(), record_dict[record_dict.keys()], label = name_list[folder_idx] + label_name, marker = 'o', color = color[color_index], markersize = MarkerSize)
             color_index += 1
     
