@@ -2,6 +2,7 @@ import datetime
 from CIFAR_utils import CIFAR
 from paras.cifar import base
 from paras.cifar import cen_sing, cen_multi
+from paras.cifar import multi_cen_sing, multi_cen_multi
 from paras.cifar import diff_privacy_multi_001, diff_privacy_multi_002
 from paras.cifar import dis_multi, dis_sing
 from paras.cifar import foolsgold, geomedian
@@ -12,7 +13,7 @@ import utils.utils
 import logging
 import argparse
 
-mode_list = ["cen", "diff", "dis", "double_pix", "defense", "half_attack", "all"]
+mode_list = ["cen", "multi_cen", "diff", "dis", "double_pix", "defense", "half_attack", "all"]
 
 logger = logging.getLogger("main logger")
 logger.setLevel(logging.INFO)
@@ -45,7 +46,15 @@ if __name__ == "__main__":
         logger.info("Testing Centralized Multi-Shot on Cifar")
         test_conf(base.parameter_base, cen_multi.parameters, "cen_multi")
 
-        
+    if mode == "multi_cen" or mode == "all":
+        check_correctness = True
+        logger.info("Testing Multi-Distributed Single-Shot on Cifar")
+        test_conf(base.parameter_base, multi_cen_sing.parameters, "multi_cen_sing")
+
+        logger.info("Testing Multi-Distributed Multi-Shot on Cifar")
+        test_conf(base.parameter_base, multi_cen_multi.parameters, "multi_cen_multi")
+
+
     if mode == "dis" or mode == "all":
         check_correctness = True
         logger.info("Testing Distributed Single-Shot on Cifar")
