@@ -18,6 +18,7 @@ import utils.config as config
 import utils.csv_record as csv_record
 from utils.utils_model import SimpleNet
 
+
 logger = logging.getLogger("logger")
 def train_process(helper, compute_similarity = False):
 
@@ -132,6 +133,8 @@ def train_process(helper, compute_similarity = False):
                 f"Model: {helper.params['environment_name']}")
     similarity_other_file.close()
     similarity_mean_file.close()
+    logger.removeHandler(logging.streamhandler())
+    logger.removeHandler(logging.FileHandler())
 
 
 def layer_analysis(agent_name_keys, adversarial_name_keys, updates, similarity_other_file, similarity_mean_file, write_header, epoch):
