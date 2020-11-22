@@ -143,7 +143,7 @@ def train_process(helper, compute_similarity = False):
 
 def layer_analysis(agent_name_keys, adversarial_name_keys, updates, similarity_other_path, similarity_mean_path, write_header, epoch):
     for key in updates:
-        updates[key] = updates[key].cpu()
+        updates[key][1] = updates[key][1].cpu()
     similarity_other_file = open(similarity_other_path, 'a')
     similarity_mean_file = open(similarity_mean_path, 'a')
     replace_eps = 1e-6
