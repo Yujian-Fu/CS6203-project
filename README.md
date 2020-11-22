@@ -69,6 +69,8 @@ python MNIST_visualization.py --params similarity
 
 **Acknowledgement**
 
+**I read, used or adapted some codes from:**
+
 https://github.com/ebagdasa/backdoor_federated_learning
 
 https://github.com/AI-secure/DBA
@@ -76,4 +78,9 @@ https://github.com/AI-secure/DBA
 https://github.com/krishnap25/RFA
 
 https://github.com/DistributedML/FoolsGold
+
+https://github.com/shaoxiongji/federated-learning
+
+https://github.com/FedML-AI/FedML
+
 
