@@ -121,11 +121,13 @@ if __name__ == "__main__":
         cen_sing_folder = "./saved_models/cifar_foolsgold/"
         cen_multi_folder = "./saved_models/cifar_geomedian/"
 
+        base_folder, target_folder = get_newest_folder(dis_multi_folder, cen_multi_folder)
+        draw_figure(base_folder, target_folder, ["dis_multi", "geomedian"])
+
         base_folder, target_folder = get_newest_folder(dis_sing_folder, cen_sing_folder)
         draw_figure(base_folder, target_folder, ["dis_single", "foolsgold"])
 
-        base_folder, target_folder = get_newest_folder(dis_multi_folder, cen_multi_folder)
-        draw_figure(base_folder, target_folder, ["dis_multi", "geomedian"])
+
     
     
 
