@@ -253,7 +253,7 @@ def layer_analysis(agent_name_keys, adversarial_name_keys, updates, similarity_o
         adversarial_weight = updates[adversarial_key][1]
         for parameter_name in adversarial_weight:
             division = (adversarial_weight[parameter_name].numpy() - begnign_base_dict[parameter_name]) / begnign_base_dict[parameter_name]
-            cosine = (adversarial_weight[parameter_name].numpy() * begnign_base_dict[parameter_name]) / (np.sum(np.power(adversarial_weight[parameter_name].numpy(), 2)) * np.sum(np.power(begnign_base_dict[parameter_name], 2)))
+            cosine = np.sum(adversarial_weight[parameter_name].numpy() * begnign_base_dict[parameter_name]) / (np.sum(np.power(adversarial_weight[parameter_name].numpy(), 2)) * np.sum(np.power(begnign_base_dict[parameter_name], 2)))
 
             similarity_result = np.mean(np.abs(division))
             if parameter_name not in adversarial_mean_dict[adversarial_key]:
@@ -272,7 +272,7 @@ def layer_analysis(agent_name_keys, adversarial_name_keys, updates, similarity_o
         begnign_weight = updates[begnign_key][1]
         for parameter_name in begnign_weight:
             division = (begnign_weight[parameter_name].numpy() - begnign_base_dict[parameter_name]) / begnign_base_dict[parameter_name]
-            cosine = (begnign_weight[parameter_name].numpy() * begnign_base_dict[parameter_name]) / (np.sum(np.power(begnign_weight[parameter_name].numpy(), 2)) * np.sum(np.power(begnign_base_dict[parameter_name], 2)))
+            cosine = np.sum(begnign_weight[parameter_name].numpy() * begnign_base_dict[parameter_name]) / (np.sum(np.power(begnign_weight[parameter_name].numpy(), 2)) * np.sum(np.power(begnign_base_dict[parameter_name], 2)))
 
             similarity_result = np.round(np.mean(np.abs(division)), 2)
             if parameter_name not in begnign_mean_dict[begnign_key]:
