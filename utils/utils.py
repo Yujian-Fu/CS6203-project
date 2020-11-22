@@ -363,6 +363,7 @@ def layer_analysis(agent_name_keys, adversarial_name_keys, updates, similarity_o
             similarity_mean_file.write(str(adversarial_mean_dict[agent_key][parameter_name]) + "  ")
         similarity_mean_file.write("\n")
 
+        similarity_mean_file.write(str(epoch) + "  " + str(agent_key) + " ")
         for parameter_name in adversarial_cosine_dict[agent_key]:
             similarity_mean_file.write(str(adversarial_cosine_dict[agent_key][parameter_name]) + "  ")
         similarity_mean_file.write("\n")
@@ -375,6 +376,7 @@ def layer_analysis(agent_name_keys, adversarial_name_keys, updates, similarity_o
             similarity_mean_file.write(str(begnign_mean_dict[agent_key][parameter_name]) + "  ")
         similarity_mean_file.write("\n")
         
+        similarity_mean_file.write(str(epoch) + "  " + str(agent_key) + " ")
         for parameter_name in begnign_cosine_dict[agent_key]:
             similarity_mean_file.write(str(begnign_cosine_dict[agent_key][parameter_name]) + "  ")
         similarity_mean_file.write("\n")
