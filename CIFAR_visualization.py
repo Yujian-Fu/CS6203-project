@@ -71,6 +71,9 @@ if __name__ == "__main__":
     
     mode = args.params
     check_correctness = False
+    if not os.path.exists(cifar_figure_folder):
+        os.makedirs(cifar_figure_folder)
+
 
     dis_sing_folder = "./saved_models/cifar_dis_sing/"
     dis_multi_folder = "./saved_models/cifar_dis_multi/"
